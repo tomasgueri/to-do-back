@@ -5,6 +5,10 @@ const FolderSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
+    image: {
+        type: String,
+        trim: true
+    },
     toDo: [
         {
             bodyItem: {
@@ -17,11 +21,11 @@ const FolderSchema = mongoose.Schema({
             },
         },
     ],
-    userId: {
-        type: String,
-        trim: true,
-        required: true,
-    },
+    // userId: {
+    //     type: String,
+    //     trim: true,
+    //     required: true,
+    // },
 });
 
 module.exports = mongoose.model('Folder', FolderSchema);

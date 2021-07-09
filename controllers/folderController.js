@@ -6,17 +6,38 @@ const Folder = require('../models/Folder');
 
 exports.newFolder = async (req, res) => {
     let { body } = req;
-    let { name, userId } = body;
+    console.log('entro', body)
     try {        
         const newFolder = new Folder({ ...body });
         await newFolder.save();
         res.send(newFolder);
     } catch (error) {
         console.log(error);
-        res.status(400).send('There was an error creating the product');
+        res.status(400).send('There was an error creating the folder');
     }
 };
-
+exports.editFolder = async (req, res) => {
+    try {
+        const { body } = req;
+        console.log('body', body)
+        const folder = await Folder.findByIdAndUpdate({_id: body.id}, body );        
+        // await folder.save();
+        res.send(folder);
+    } catch (error) {
+        res.status(400).send({ msg: 'There was an error editing a task' });
+    }
+}
+exports.deleteFolder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log('entro', req.params)
+        await Folder.findByIdAndDelete(id);
+        res.send({ msg: 'deleted folder' });
+    } catch (error) {
+        res.status(400).json({ msg: 'failed to delete folder' });
+        console.log('🚀 - error', error);
+    }
+}
 exports.getFolder = async (req, res) => {
     try {
         const { id } = req.params;
@@ -39,7 +60,6 @@ exports.getFolders = async (req, res) => {
 exports.newToDo = async (req, res) => {
     try {
         const { body } = req;
-        console.log('entro', body)
         let folder = await Folder.findById(body.id);
         folder.toDo.push(body)
         await folder.save();        
@@ -57,7 +77,6 @@ exports.editItem = async (req, res) => {
         } else {
             folder.toDo[body.i].check = body.check;
         }
-        // console.log('item', folder.toDo)
         await folder.save();
         res.send(folder);
     } catch (error) {

@@ -7,6 +7,8 @@ const folderController = require('../controllers/folderController');
 // const adminMiddleware = require('../middlewares/adminMiddleware');
 
 router.post('/', folderController.newFolder);
+router.put('/', folderController.editFolder);
+router.delete('/:id', folderController.deleteFolder);
 router.get('/', folderController.getFolders);
 router.get('/one/:id', folderController.getFolder);
 router.put('/item', folderController.editItem);
